@@ -33,16 +33,3 @@ function toUpperCase(phrase) {
 }
 
 console.log(toUpperCase("hola esto es una prueba"));
-
-/// Segunda forma de solucionarlo ///
-
-function mayuscula(phrase) {
-  value = phrase.split(" ");
-  for (i = 0; i < value.length; i++) {
-    value[i] = value[i][0].toUpperCase() + value[i].substr(1);
-  }
-
-  return (phrase = value.join(" "));
-}
-
-console.log(mayuscula("esta es una frase de prueba"));
