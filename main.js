@@ -1,35 +1,23 @@
-// Escriba una function que escriba un número a la inversa
+let add_number = document.getElementById("add");
+let subst_number = document.getElementById("substract");
 
-function numeroReversa(value) {
-  number = value.toString();
-  newNumber = "";
+function newNumber () {
 
-  for (let i = number.length - 1; i >= 0; i--) {
-    newNumber += number[i];
-  }
+  sum = 0;
 
-  return Number(newNumber);
+  const add = add_number.addEventListener("click", () => {
+    sum++;
+    console.log(sum);
+  });
+
+  const substr = subst_number.addEventListener("click", (event) => {
+    sum--;
+    console.log(sum);
+  });
+
+
+  add()
+  substr()
 }
 
-console.log(numeroReversa(123));
-
-
-// Escriba una function que acepte un string como parámetro y convierta cada
-// primer letra de cada palabra en mayúscula
-
-
-function toUpperCase(phrase) {
-  let value = phrase.split(" ");
-  for (i = 0; i < value.length; i++) {
-    value[i] = value[i].split("");
-    let firstLetter = value[i].shift();
-    value[i].unshift(firstLetter.toUpperCase());
-    value[i] = value[i].join("");
-  }
-
-  phrase = value.join(" ");
-
-  return phrase;
-}
-
-console.log(toUpperCase("hola esto es una prueba"));
+newNumber()
