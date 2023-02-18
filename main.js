@@ -40,12 +40,6 @@ function estudianteNuevo(nombre, apellidos, fechaNacimiento, id, nuevoIngreso, c
       materia.estado = 'aprobado'
     } else {materia.estado = 'reprobado'}
 
-    // materia.estado = function (nota) {
-    //   if (nota >= 70) {
-    //     return 'aprobado'
-    //   } else { return 'reprobado'}
-    // }
-
     this.cursados.push(materia)
   }
 
