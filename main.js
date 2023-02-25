@@ -1,52 +1,50 @@
-// Crear un método que permita agregar cursos a la lista de cursos aprobados.
-// El usuario debe poder ingresar un objeto con el nombre del curso, nota.
+class NuevoEstudiante {
+  constructor (nombre, apellidos, fechaNacimiento, id, nuevoIngreso, carrera, matriculados, cursados) {
+    this.nombre = nombre;
+    this.apellidos = apellidos;
+    this.fechaNacimiento = fechaNacimiento;
+    this.id = id;
+    this.nuevoIngreso = nuevoIngreso;
+    this.carrera = carrera;
+    this.matriculados = matriculados || [];
+    this.cursados = cursados || [];
 
-// Y dependiendo la nota se agrega de manera automática una propiedad nueva que se llama estado:
-// cuyo valor sera de aprobado (nota > 70) o reprobado (nota < 70)
+    this.materias = function (curso, nota) {
+      const materia = {};
 
-function estudianteNuevo(nombre, apellidos, fechaNacimiento, id, nuevoIngreso, carrera, matriculados, cursados) {
-  const datos = {};
+      materia.curso = curso;
+      materia.nota = nota;
+      materia.estado = nota >= 70 ? 'aprobado' : 'reprobado';
+      this.cursados.push(materia)
+    }
 
-  datos.nombre = nombre;
-  datos.apellidos = apellidos;
-  datos.fechaNacimiento = fechaNacimiento;
-  datos.id = id;
-  datos.nuevoIngreso = nuevoIngreso;
-  datos.carrera = carrera;
-  datos.matriculados = matriculados || [];
-  datos.cursados = cursados || [];
-  
-  datos.matricular = function(curso) {
+  }
+
+  // SET
+
+  set matricular (curso) {
     this.matriculados.push(curso)
   }
 
-  datos.retirar = function(curso) {
+  set retirar(curso) {
     const index = this.matriculados.indexOf(curso);
     if (index > -1) {
       this.matriculados.splice(index, 1);
     }
-  
-    // this.cursosMatriculados = this.cursosMatriculados.filter(item => item !== curso); // devuelve un array con los elementos que cumplen con la condición
   }
 
-  datos.materias = function (curso, nota) {
-    const materia = {};
+  // GET
 
-    materia.curso = curso;
-    materia.nota = nota;
-    materia.estado = '';
-
-    if (nota >= 70) {
-      materia.estado = 'aprobado'
-    } else {materia.estado = 'reprobado'}
-
-    this.cursados.push(materia)
+  get cursosActivos () {
+    return this.matriculados
   }
-
-  return datos;
 }
 
-const andy = estudianteNuevo('Andy', 'Smith', '1990-10-30', 'a-0001', true, 'Historía del Arte', ['Introducción a la pintura']);
-andy.materias('Introducción a la pintura', 70)
-andy.materias('Humanidades I', 68)
-console.log(andy)
+const andy = new NuevoEstudiante ('Andy', 'Smith', '1990-10-30', 'a-0001', true, 'Historía del Arte');
+
+andy.matricular = 'Van Gogh 1';
+andy.matricular = 'Historia Griega';
+andy.matricular = 'Cultura Pop';
+andy.retirar = 'Historia Griega';
+
+console.log(andy.cursosActivos)
