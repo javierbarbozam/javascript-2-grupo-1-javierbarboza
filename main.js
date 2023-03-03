@@ -1,68 +1,76 @@
-// 1. Crear una clase Persona que reciba nombre, apellido, id, edad y ubicación.
-// Agregar un método que se llame saludar, y que retorne un saludo con el nombre y apellido de la persona.
-class Persona {
-  constructor (nombre, apellido, id, edad, ubicacion) {
+class Libreria {
+  constructor (nombre, direccion, listaLibros, listaComics) {
     this.nombre = nombre;
-    this.apellido = apellido;
-    this.id = id;
-    this.edad = edad;
-    this.ubicacion = ubicacion
-  }
-  
-  saludar () {
-    return `Hola, me llamo ${this.nombre} ${this.apellido}`;
-  }
-}
-
-// 2. Crear una clase Empleado que herede de Persona y reciba un parámetro sueldo, posición, departamento, ingreso.
-// Agregar un método que se llame imprimirSueldo, que imprima el sueldo anual del empleado.
-class Empleado extends Persona {
-  constructor (nombre, apellido, id, edad, ubicacion, sueldo, posicion, departamento, ingreso) {
-    super (nombre, apellido, id, edad, ubicacion)
-    this.sueldo = sueldo;
-    this.posicion = posicion;
-    this.departamento = departamento;
-    this.ingreso = ingreso;
+    this.direccion = direccion;
+    this.listaLibros = listaLibros || [];
+    this.listaComics = listaComics || [];
   }
 
-  imprimirSueldo () {
-    return this.sueldo * 12;
-  }
-}
-
-// 3. Crear una clase Desarrollador que herede de Empleado, Desarrollador debe recibir un parámetro llamado lenguajes
-// (tiene que ser un array de objetos): debe incluir nombreDeLenguaje y conocimiento (es un valor numérico del 1 al 100).
-
-// 4. Agregar un método se llame lenguajeDominado y que imprima el lenguaje que domina el desarrollador:
-// el lenguaje que domina depende del valor que tenga en la propiedad conocimiento, de manera que se imprimar le lenguaje con mayor valor numérico.
-// 
-// 5. Agregar un método que se llame agregarLenguaje para agregar un nuevo lenguaje al array de lenguajes.
-class Desarrollador extends Empleado {
-  constructor (nombre, apellido, id, edad, ubicacion, sueldo, posicion, departamento, ingreso, lenguajes) {
-    super (nombre, apellido, id, edad, ubicacion, sueldo, posicion, departamento, ingreso)
-    this.lenguajes = lenguajes || [];
+  nuevoLibro (libro) {
+    this.listaLibros.push(libro)
   }
 
-  lenguajeDominado () {
-    let dominado = {nombreLenguaje: '', conocimiento: 0};
-    for (let i = 0; i < this.lenguajes.length; i ++) {
-      if (this.lenguajes[i].conocimiento > dominado.conocimiento) {
-        dominado = this.lenguajes[i]
-      }
+  nuevoComic (comic) {
+    this.listaComics.push(comic)
+  }
+
+  getInfo (obra) {
+    const resultadoLibro = this.listaLibros.find(({titulo}) => titulo === obra);
+    const resultadoComic = this.listaComics.find(({titulo}) => titulo === obra);
+
+    // condicional para cantidad de libro
+    if (resultadoLibro === undefined && resultadoComic === undefined) {
+      return `No contamos con ${obra} en estos momentos`
+    } else if (resultadoLibro !== undefined && resultadoComic === undefined) {
+      if (resultadoLibro.getEjemplares === 0) {
+        return `No hay ejemplares de ${obra} disponibles`
+      } else {return resultadoLibro}
+    } else {
+      if (resultadoComic.getEjemplares === 0) {
+        return `No hay ejemplares de ${obra} disponibles`
+      } else {return resultadoComic}
     }
-    return dominado;
+  }
+}
+class Libro {
+  #cantidad;
+  #anio = 0;
+  constructor (titulo, autor, precio, cantidad, anio) {
+    this.titulo = titulo;
+    this.autor = autor;
+    this.precio = precio;
+    this.#cantidad = cantidad;
+    this.#anio = anio;
   }
 
-  agregarLenguaje (nombreLenguaje, conocimiento) {
-    this.lenguajes.push({nombreLenguaje, conocimiento})
+  set setEjemplares (numero) {
+    this.#cantidad = numero
+  }
+
+  set setAnio (numero) {
+    this.#anio = numero
+  }
+
+  get getEjemplares () {
+    return this.#cantidad
+  }
+
+  get getAnio () {
+    return this.#anio
+  }
+}
+class Comic extends Libro {
+  constructor (titulo, autor, precio, cantidad, anio, dibujante, editorial, volumen) {
+    super (titulo, autor, precio, cantidad, anio)
+    this.dibujante = dibujante;
+    this.editorial = editorial;
+    this.volumen = volumen;
   }
 }
 
-
-const andy = new Desarrollador ('Andy', 'Smith', '1234567', '22', 'Cartago', 100, 'programador', 'Back End');
-andy.agregarLenguaje('JavaScript', 45);
-andy.agregarLenguaje('Python', 80)
-andy.agregarLenguaje('Java', 93)
-console.log(andy.saludar())
-console.log(andy.imprimirSueldo())
-console.log(andy.lenguajeDominado())
+const libreria_uno = new Libreria ('Libreria Coronado', 'Coronado', [],[]);
+const libro_uno = new Libro ('Cocina', 'Jhon Jhon', 2, 0, 2022);
+const comic_uno = new Comic ('difficult', 'Jhon Jhon', 2, 123, 2022);
+libreria_uno.nuevoLibro(libro_uno);
+libreria_uno.nuevoComic(comic_uno);
+console.log(libreria_uno.getInfo('Cocina'));
