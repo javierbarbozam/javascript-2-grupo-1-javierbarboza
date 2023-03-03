@@ -18,7 +18,6 @@ class Libreria {
     const resultadoLibro = this.listaLibros.find(({titulo}) => titulo === obra);
     const resultadoComic = this.listaComics.find(({titulo}) => titulo === obra);
 
-    // condicional para cantidad de libro
     if (resultadoLibro === undefined && resultadoComic === undefined) {
       return `No contamos con ${obra} en estos momentos`
     } else if (resultadoLibro !== undefined && resultadoComic === undefined) {
