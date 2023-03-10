@@ -147,13 +147,11 @@ const createMenu= () => {
 
   let newContent = '';
   
-  addContent = () => {
+  (function () {
     menu.forEach(element => {
       newContent +=`<li>${element}</li>`
     })
-  };
-  
-  addContent();
+  })();
   
   list.insertAdjacentHTML(
     'beforeend',
