@@ -1,75 +1,167 @@
-class Libreria {
-  constructor (nombre, direccion, listaLibros, listaComics) {
-    this.nombre = nombre;
-    this.direccion = direccion;
-    this.listaLibros = listaLibros || [];
-    this.listaComics = listaComics || [];
+class Bookstore {
+  #bookstoreName;
+  #address;
+  #books;
+  #comics;
+  constructor(bookstoreName, address) {
+    this.#bookstoreName = bookstoreName;
+    this.#address = address;
+    this.#books = [];
+    this.#comics = [];
   }
 
-  nuevoLibro (libro) {
-    this.listaLibros.push(libro)
+
+  // getters
+  get getBooks() {
+    return this.#books;
   }
 
-  nuevoComic (comic) {
-    this.listaComics.push(comic)
+  get getComics() {
+    return this.#comics;
   }
 
-  getInfo (obra) {
-    const resultadoLibro = this.listaLibros.find(({titulo}) => titulo === obra);
-    const resultadoComic = this.listaComics.find(({titulo}) => titulo === obra);
+  get getName() {
+    return this.#bookstoreName
+  }
 
-    if (resultadoLibro === undefined && resultadoComic === undefined) {
-      return `No contamos con ${obra} en estos momentos`
-    } else if (resultadoLibro !== undefined && resultadoComic === undefined) {
-      if (resultadoLibro.getEjemplares === 0) {
-        return `No hay ejemplares de ${obra} disponibles`
-      } else {return resultadoLibro}
-    } else {
-      if (resultadoComic.getEjemplares === 0) {
-        return `No hay ejemplares de ${obra} disponibles`
-      } else {return resultadoComic}
+  // setters
+  set setBookstoreName(name) {
+    this.#bookstoreName = name;
+  }
+
+  set setAddress(address) {
+    this.#address = address;
+  }
+
+  set setBooks(book) {
+    this.#books.push(book);
+  }
+
+  set setComics(comic) {
+    this.#comics.push(comic);
+  }
+}
+
+class Book {
+  #title;
+  #author;
+  #price;
+  #stock;
+  #year;
+  
+  constructor(title, author, price, stock, year) {
+    this.#title = title;
+    this.#author = author;
+    this.#price = price;
+    this.#stock = stock;
+    this.#year = year;
+  }
+
+  getInfo() {
+    return {
+      title: this.#title,
+      auhor: this.#author,
+      price: this.#price,
+      year: this.#year,
+      stock: !this.#stock ? 'No hay ejemplares disponibles' : this.#stock
+    }
+  }
+
+  // setters
+  set setStock(stock) {
+    this.#stock = stock;
+  }
+
+  set setYear(year) {
+    this.#year = year;
+  }
+}
+
+class Comic extends Book {
+  #illustrator;
+  #publisher;
+  #volume;
+  constructor(title, author, price, stock, year, illustrator, publisher, volume) {
+    super(title, author, price, stock, year);
+    this.#illustrator = illustrator;
+    this.#publisher = publisher;
+    this.#volume = volume;
+  }
+
+  getInfo () {
+    const info = super.getInfo(); 
+    return {
+      ...info,
+      illustrator: this.#illustrator,
+      publisher: this.#publisher,
+      volume: this.#volume
     }
   }
 }
-class Libro {
-  #cantidad;
-  #anio = 0;
-  constructor (titulo, autor, precio, cantidad, anio) {
-    this.titulo = titulo;
-    this.autor = autor;
-    this.precio = precio;
-    this.#cantidad = cantidad;
-    this.#anio = anio;
-  }
 
-  set setEjemplares (numero) {
-    this.#cantidad = numero
-  }
+const bookstore1 = new Bookstore('Libreria 1', 'Calle 1');
 
-  set setAnio (numero) {
-    this.#anio = numero
-  }
+const addBook = () => {
+  const book = new Book('El principito', 'Antoine de Saint', 100, 10, 1943);
+  bookstore1.setBooks = book.getInfo();
+  console.log('Add book')
+} 
 
-  get getEjemplares () {
-    return this.#cantidad
-  }
-
-  get getAnio () {
-    return this.#anio
-  }
-}
-class Comic extends Libro {
-  constructor (titulo, autor, precio, cantidad, anio, dibujante, editorial, volumen) {
-    super (titulo, autor, precio, cantidad, anio)
-    this.dibujante = dibujante;
-    this.editorial = editorial;
-    this.volumen = volumen;
-  }
+const addComic = () => {
+  const comic = new Comic('Batman', 'bob kane', 200, 5, '1939', 'Bob kane', 'DC Comics', 1);
+  bookstore1.setComics = comic.getInfo();
+  console.log('Add Comic')
 }
 
-const libreria_uno = new Libreria ('Libreria Coronado', 'Coronado', [],[]);
-const libro_uno = new Libro ('Cocina', 'Jhon Jhon', 2, 0, 2022);
-const comic_uno = new Comic ('difficult', 'Jhon Jhon', 2, 123, 2022);
-libreria_uno.nuevoLibro(libro_uno);
-libreria_uno.nuevoComic(comic_uno);
-console.log(libreria_uno.getInfo('Cocina'));
+const showProducts = () => {
+  console.log('Books')
+  console.log(bookstore1.getBooks);
+
+  console.log('Comics')
+  console.log(bookstore1.getComics);
+}
+
+const sidebar = document.getElementById('sidebar');
+const menu = ['Show Books', 'Show Comics', 'Add book', 'Add Comic'];
+
+const printBookstoreName = () => {
+  sidebar.insertAdjacentHTML(
+    'afterbegin',
+    `<h2 class="title">
+      ${bookstore1.getName}
+    </h2>`
+  )
+}
+
+printBookstoreName();
+
+
+const createMenu= () => {
+
+  sidebar.insertAdjacentHTML(
+    'beforeend',
+    `<ul class="newList"></ul>`
+  )
+
+  const list = document.querySelector('.newList');
+
+  let newContent = '';
+  
+  addContent = () => {
+    menu.forEach(element => {
+      newContent +=`<li>${element}</li>`
+    })
+  };
+  
+  addContent();
+  
+  list.insertAdjacentHTML(
+    'beforeend',
+    newContent
+  )
+
+  list.classList.remove('newList');
+  
+}
+
+createMenu();
