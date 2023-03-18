@@ -72,7 +72,7 @@ const comicForm = () => {
     // Add HTML elements to variable
 
     // First IF creates Type Number inputs
-    if (title === 'volume') {
+    if (title === 'volumen') {
       formElement +=
       `<label for="${item}">${title.charAt(0).toUpperCase() + title.slice(1)}</label>
       <input type="number" id="${item}" placeholder="Inserte ${title} de la obra">`
