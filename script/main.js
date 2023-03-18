@@ -88,13 +88,22 @@ const addBooks = () => {
     let year = document.getElementById('year').value;
 
     // Validate filled inputs
-    if (title === '' || author === '' || illustrator === '' || publisher === '' || price === '' || stock === '' || year === '') {
+    if (title === '' || author === '' || price === '' || stock === '' || year === '') {
       alert('Por favor ingrese la información del Libro completa.')
       return;
-    } else {
-      const book = new Book (title,author,price,stock,year)
-    libromania.SetBooks = book.getInfo();
     }
+
+    // Validate duplicated book
+    let books = libromania.GetBooks
+    books.forEach((item) => {
+      if (title === item.title) {
+        alert('Este libro ya se encuentra en nuestra base de datos.')
+        return;
+      }
+    })
+
+    const book = new Book (title,author,price,stock,year)
+    libromania.SetBooks = book.getInfo();
   })
 }
 
@@ -125,10 +134,19 @@ const addComics = () => {
     if (title === '' || author === '' || illustrator === '' || publisher === '' || price === '' || stock === '' || year === '' || illustrator === '' || publisher === '' || volume === '') {
       alert('Por favor ingrese la información del Comic completa.')
       return;
-    } else {
-      const comic = new Comic (title,author,price,stock,year,illustrator,publisher,volume)
-      libromania.SetComics = comic.getInfo();
     }
+
+    // Validate duplicated book
+    let comics = libromania.GetComics
+    comics.forEach((item) => {
+      if (title === item.title) {
+        alert('Este Comic ya se encuentra en nuestra base de datos.')
+        return;
+      }
+    })
+
+    const comic = new Comic (title,author,price,stock,year,illustrator,publisher,volume)
+    libromania.SetComics = comic.getInfo();
   })
 }
 
@@ -188,9 +206,6 @@ const showComics = () => {
   )
 }
 
-
-
-// 2. Verificar que los datos sean válidos, es decir, que no se agreguen comics o libros a las listas correspondientes si el usuario manda valores nulos o vacíos.
 
 // 3. Agregar validación para evitar que se agreguen libros o comics repetidos, debe mostrar un mensaje (puede ser un alert) indicando que el libro o comic no se pudo ingresar porque ya existe.
 
