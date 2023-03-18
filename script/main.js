@@ -87,9 +87,14 @@ const addBooks = () => {
     let stock = document.getElementById('stock').value;
     let year = document.getElementById('year').value;
 
-    const book = new Book (title,author,price,stock,year)
+    // Validate filled inputs
+    if (title === '' || author === '' || illustrator === '' || publisher === '' || price === '' || stock === '' || year === '') {
+      alert('Por favor ingrese la información del Libro completa.')
+      return;
+    } else {
+      const book = new Book (title,author,price,stock,year)
     libromania.SetBooks = book.getInfo();
-
+    }
   })
 }
 
@@ -115,10 +120,15 @@ const addComics = () => {
     let illustrator = document.getElementById('illustrator').value;
     let publisher = document.getElementById('publisher').value;
     let volume = document.getElementById('volume').value;
-
-    const comic = new Comic (title,author,price,stock,year,illustrator,publisher,volume)
-    libromania.SetComics = comic.getInfo();
-
+    
+    // Validate filled inputs
+    if (title === '' || author === '' || illustrator === '' || publisher === '' || price === '' || stock === '' || year === '' || illustrator === '' || publisher === '' || volume === '') {
+      alert('Por favor ingrese la información del Comic completa.')
+      return;
+    } else {
+      const comic = new Comic (title,author,price,stock,year,illustrator,publisher,volume)
+      libromania.SetComics = comic.getInfo();
+    }
   })
 }
 
@@ -177,5 +187,13 @@ const showComics = () => {
     </div>`
   )
 }
+
+
+
+// 2. Verificar que los datos sean válidos, es decir, que no se agreguen comics o libros a las listas correspondientes si el usuario manda valores nulos o vacíos.
+
+// 3. Agregar validación para evitar que se agreguen libros o comics repetidos, debe mostrar un mensaje (puede ser un alert) indicando que el libro o comic no se pudo ingresar porque ya existe.
+
+// ** 7. Puntos extras si se crear un formulario, desde JavaScript, para solicitar al usuario la información del libro o comic a la hora de agregar dichos elementos: 3%. (Se tomara en cuenta lo aprendido en clase y buenas prácticas de manera que el código se pueda reutilizar para agregar un libro o un comic según corresponda.)
 
 
