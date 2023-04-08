@@ -4,4 +4,10 @@ function parImpar (number) {
   })
 }
 
-console.log(parImpar(3))
+parImpar(3)
+  .then(res => {
+    console.log(res)
+  })
+  .catch(error => {
+    console.log(error)
+  })
