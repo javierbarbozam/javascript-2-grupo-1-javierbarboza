@@ -1,10 +1,3 @@
-// Nombre, 
-// imagen, 
-// altura, 
-// peso,
-// habilidades (solo nombre de habilidades)
-// stats: Nombre y base_stat
-
 const pokemonSelect = document.getElementById('pokemonSelect');
 const pokemonDetail = document.getElementById('pokemon-detail');
 
@@ -25,20 +18,58 @@ const pokemonList = (item) => {
   pokemonSelect.innerHTML = list
 }
 
-function selectPokemonListener () {
+function pokemonSelectListener () {
   pokemonSelect.addEventListener ('change', () => {
     let pokemonId = pokemonSelect.value
     loadPokemon(pokemonId)
   })
 }
-selectPokemonListener()
+pokemonSelectListener()
 
 const loadPokemon = async (pokemonId) => {
   if (pokemonId != 'Seleccione un Pokémon') {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
     const data = await response.json()
     console.log(data)
+    pokemonInformation(data)
   }
 }
 
-const pokemonInformation = () => {}
+const pokemonInformation = (data) => {
+  let info = `
+  <h2 class="pokemon-name">${data.name}</h2>
+  <img class="pokemon-img" src="${data.sprites.other.dream_world.front_default}" alt="">
+  <div class="pokemon-info">
+    <p>Height: ${data.height}</p>
+    <p>weight: ${data.weight}</p>
+    <ul class="pokemon-abilities">
+      <span>Habilidades</span>
+      ${data.abilities.map((item) => {return `<li>${item.ability.name}</li>`}).join('')}
+    </ul>
+    <ul class="pokemon-stats">
+      <span>Estadísticas</span>
+    </ul>
+
+  </div>
+  `
+  
+  
+  pokemonDetail.innerHTML = info
+
+
+
+  // Nombre, 
+// imagen, 
+// altura, 
+// peso,
+// habilidades (solo nombre de habilidades)
+// stats: Nombre y base_stat
+}
+
+
+async function info () {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon/111');
+  const data = await response.json()
+  document.getElementById('prueba').innerHTML = Object.keys(data).map((item) => {return `<p>${item}</p>`}) 
+}
+info()
