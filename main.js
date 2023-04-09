@@ -18,6 +18,7 @@ const pokemonList = (item) => {
   pokemonSelect.innerHTML = list
 }
 
+// Select HTML Tag Event listener
 function pokemonSelectListener () {
   pokemonSelect.addEventListener ('change', () => {
     let pokemonId = pokemonSelect.value
@@ -26,6 +27,7 @@ function pokemonSelectListener () {
 }
 pokemonSelectListener()
 
+// Specific Pokemon API function
 const loadPokemon = async (pokemonId) => {
   if (pokemonId != 'Seleccione un Pokémon') {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
@@ -35,6 +37,7 @@ const loadPokemon = async (pokemonId) => {
   }
 }
 
+// Creates specific Pokemon information at DOM
 const pokemonInformation = (data) => {
   let info = `
   <h2 class="pokemon-name">${data.name}</h2>
