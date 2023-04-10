@@ -32,47 +32,38 @@ const loadPokemon = async (pokemonId) => {
   if (pokemonId != 'Seleccione un Pokémon') {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
     const data = await response.json()
-    console.log(data)
     pokemonInformation(data)
-  }
+  } else {pokemonDetail.innerHTML = ''} // Clear DOM in case any Pokemon is selected
 }
 
 // Creates specific Pokemon information at DOM
 const pokemonInformation = (data) => {
-  let info = `
+  pokemonDetail.innerHTML = `
   <h2 class="pokemon-name">${data.name}</h2>
   <img class="pokemon-img" src="${data.sprites.other.dream_world.front_default}" alt="">
   <div class="pokemon-info">
-    <p>Height: ${data.height}</p>
-    <p>weight: ${data.weight}</p>
+    <div>
+      <span class="subtitle">Altura</span>
+      <p>${data.height}</p>
+    </div>
+    <div>
+      <span class="subtitle">Peso</span>
+      <p>${data.weight}</p>
+    </div>
     <ul class="pokemon-abilities">
-      <span>Habilidades</span>
+      <span class="subtitle">Habilidades</span>
       ${data.abilities.map((item) => {return `<li>${item.ability.name}</li>`}).join('')}
     </ul>
-    <ul class="pokemon-stats">
-      <span>Estadísticas</span>
-    </ul>
-
+    <div class="pokemon-stats">
+      <span class="subtitle">Estadísticas</span>
+      ${data.stats.map((item) => {
+        return `
+        <div>
+          <p>${item.stat.name}</p>
+          <p>${item.base_stat}</p>
+        </div>`
+      }).join('')}
+    </div>
   </div>
   `
-  
-  
-  pokemonDetail.innerHTML = info
-
-
-
-  // Nombre, 
-// imagen, 
-// altura, 
-// peso,
-// habilidades (solo nombre de habilidades)
-// stats: Nombre y base_stat
 }
-
-
-async function info () {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon/111');
-  const data = await response.json()
-  document.getElementById('prueba').innerHTML = Object.keys(data).map((item) => {return `<p>${item}</p>`}) 
-}
-info()
