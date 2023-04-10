@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Press Start 2P', cursive;
+}
+
+#pokemonSelect {
+  display: block;
+  margin: 50px auto 20px;
+  font-family: 'Press Start 2P', cursive;
+  height: fit-content;
+  padding: 10px;
+}
+
+option {
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+}
