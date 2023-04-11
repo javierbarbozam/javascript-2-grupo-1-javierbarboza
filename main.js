@@ -36,7 +36,7 @@ const loadPokemon = async (pokemonId) => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
     const data = await response.json()
     pokemonInformation(data)
-  } else {pokemonDetail.innerHTML = `<p class="pokemon-slogan">Gotta catch'em all</p>`} // Restart DOM first view in case any Pokemon is chosen
+  } else {pokemonDetail.innerHTML = `<p class="pokemon-slogan">Gotta catch'em all</p>`} // Restart DOM first view in case any Pokemon was chosen
 }
 
 // Creates specific Pokemon information at DOM
