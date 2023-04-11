@@ -1,6 +1,9 @@
 const pokemonSelect = document.getElementById('pokemonSelect');
 const pokemonDetail = document.getElementById('pokemon-detail');
 
+// Just to add some style to DOM first view
+pokemonDetail.innerHTML = `<p class="pokemon-slogan">Gotta catch'em all</p>`
+
 // fetching all Pokemon from API
 const pokemonApiData = async () => {
   const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=110&limit=100');
@@ -33,7 +36,7 @@ const loadPokemon = async (pokemonId) => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
     const data = await response.json()
     pokemonInformation(data)
-  } else {pokemonDetail.innerHTML = ''} // Clear DOM in case any Pokemon is selected
+  } else {pokemonDetail.innerHTML = `<p class="pokemon-slogan">Gotta catch'em all</p>`} // Clear DOM in case any Pokemon is selected
 }
 
 // Creates specific Pokemon information at DOM

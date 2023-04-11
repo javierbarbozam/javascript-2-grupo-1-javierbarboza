@@ -45,7 +45,7 @@ p {
   margin: 20px auto 0;
   height: 80vh;
   width: 80vw;
-  
+  position: relative;
   background-color: rgba(253,246,235,255);
   border: solid 6px rgb(36, 36, 36);
   border-radius: 10px;
@@ -55,6 +55,16 @@ p {
   gap: 20px;
   justify-content: space-between;
   align-items: center;
+}
+
+.pokemon-slogan {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  font-size: 100px;
+  line-height: 120px;
 }
 
 .info-grid {
