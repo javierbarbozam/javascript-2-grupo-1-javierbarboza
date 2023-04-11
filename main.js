@@ -10,10 +10,10 @@ const pokemonApiData = async () => {
 pokemonApiData()
 
 // Creates all the <option> HTML tags
-const pokemonList = (item) => {
+const pokemonList = (data) => {
   let list = '<option>Seleccione un Pokémon</option>';
-  item.forEach(element => {
-    list += `<option value="${element.url.slice(34,37)}">${element.name}</option>` //slice in order to have specific id from url
+  data.forEach(element => {
+    list += `<option value="${element.url.slice(34,37)}">${dataGrammar(element.name)}</option>` //slice in order to have specific id from url
   });
   pokemonSelect.innerHTML = list
 }
@@ -39,31 +39,55 @@ const loadPokemon = async (pokemonId) => {
 // Creates specific Pokemon information at DOM
 const pokemonInformation = (data) => {
   pokemonDetail.innerHTML = `
-  <h2 class="pokemon-name">${data.name}</h2>
-  <img class="pokemon-img" src="${data.sprites.other.dream_world.front_default}" alt="">
   <div class="pokemon-info">
-    <div>
-      <span class="subtitle">Altura</span>
-      <p>${data.height}</p>
-    </div>
-    <div>
-      <span class="subtitle">Peso</span>
-      <p>${data.weight}</p>
-    </div>
-    <ul class="pokemon-abilities">
-      <span class="subtitle">Habilidades</span>
-      ${data.abilities.map((item) => {return `<li>${item.ability.name}</li>`}).join('')}
-    </ul>
-    <div class="pokemon-stats">
-      <span class="subtitle">Estadísticas</span>
-      ${data.stats.map((item) => {
-        return `
-        <div>
-          <p>${item.stat.name}</p>
-          <p>${item.base_stat}</p>
-        </div>`
-      }).join('')}
+    <h2 class="pokemon-name">${dataGrammar(data.name)}</h2>
+    <div class="info-grid">
+      <div>
+        <h3 class="subtitle">Altura</h3>
+        <p>${data.height}</p>
+      </div>
+      <div>
+        <h3 class="subtitle">Peso</h3>
+        <p>${data.weight}</p>
+      </div>
+      <div>
+        <h3 class="subtitle">Habilidades</h3>
+        <ul class="pokemon-abilities">
+          ${data.abilities.map((item) => {return `<li>${dataGrammar(item.ability.name)}</li>`}).join('')}
+        </ul>
+      </div>
+      <div>
+        <h3 class="subtitle">Estadísticas</h3>
+        <ul class="pokemon-stats">
+          ${data.stats.map((item) => {
+            return `
+            <li>
+              <div class="stats-container">
+                <p class="stat-name">${dataGrammar(item.stat.name)}</p>
+                <p class="stat-rating">${item.base_stat}</p>
+              </div>
+            </li>`
+          }).join('')}
+        </ul>
+      </div>
     </div>
   </div>
+  <img class="pokemon-img" src="${data.sprites.other.dream_world.front_default}" alt="">
   `
+}
+
+const dataGrammar = (data) => {
+  // Json data uses '-' for word spacing
+
+  // Uppercase to single word
+  if (data.indexOf('-') === -1) {
+    return data.charAt(0).toUpperCase() + data.slice(1);
+  } else { 
+    //Uppercase to value with more than one word
+    const phrase = data.split('-');
+    for (let i = 0; i < phrase.length; i++) {
+      phrase[i] = phrase[i].charAt(0).toUpperCase() + phrase[i].slice(1);
+    }
+    return phrase.join(' ')
+  }
 }
